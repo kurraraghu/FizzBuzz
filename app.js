@@ -1,6 +1,8 @@
 import express from 'express';
 import HandlingErrors from './middlewares/GlobalErrorHandler.js';
 import appRouters from './routes/app.routers.js';
+import path from 'path';
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -14,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 //   next();
 // });
 app.get('/', (req, res) => {
-  res.send('FizzBuzz rest apis');
+  res.sendFile(__dirname + "/index.html");
 });
 
 app.use('/api', appRouters);
