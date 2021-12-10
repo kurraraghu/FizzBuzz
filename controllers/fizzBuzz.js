@@ -1,21 +1,13 @@
-import fuzzBuzzService from '../services/fuzzBuzzService';
-import { validationResult } from 'express-validator';
+import fuzzBuzzService from '../services/fuzzBuzzService.js';
 
 function get(req, res) {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.json({ errors: errors.array() });
-    }
-
-    const count = req.params['count'];
-    fuzzBuzzService.generateFuzzBuzz(count).then((fuzzBuzzList) => {
-      res.json(fuzzBuzzList);
-    });
-  } catch (error) {
+  const count = +req.params['count'];
+  fuzzBuzzService.generateFuzzBuzz(count).then((fuzzBuzzList) => {
+    return res.json(fuzzBuzzList);
+  }, (error) => {
     return res.json({ status: 'error', message: error.message });
-  }
-  return res.json(req.dbUser);
+  });
+
 }
 
 export default { get };
